@@ -1,6 +1,10 @@
+"""
+usage: python model.py --load_from [datafile] save_to [resultfile] ref_exps ["pron1",.,"name"] prompt_ending [period/connective]
+"""
 import csv
-import model as refexpmodel
+import argparse
 import numpy as np
+import model as refexpmodel
 
 #------------------------ Data I/O -------------------------
 
@@ -50,7 +54,7 @@ def normalize_results(results):
 def run_next_word_prediction(model,stimuli,referents):
     results = {}
     for stimulus in stimuli:
-        referent_probabilities = model.predict(stimulus,referents)
+        referent_probabilities = model.get_probability_scores(stimulus,referents)
         probability_scores = {}
         for i,referent in enumerate(referents):
             probability_scores[referent] = referent_probabilities[i]
@@ -68,11 +72,26 @@ def run_experiment(datafile,prompt_ending,referents,outfile):
 
 
 def main():
-    #datafile = "../stimuli/IC2.csv"
-    #prompt_ending = "because"
-    #outfile = "../results/IC2_exp1A_2-x.csv"
-    #referents = ["he","she"]
-    #run_experiment(datafile,prompt_ending,referents,outfile)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--load_from",type=str,help="path of file containing stimuli",required=True)
+    parser.add_argument("--save_to",type=str,help="path of file for storing results",required=True)
+    parser.add_argument('--ref_exps',type=str,required=True)
+    parser.add_argument('--prompt_ending',type=str,required=True)
+    args = vars(parser.parse_args())
+
+    datapath = args['load_from']
+    resultpath = args['save_to']
+    ref_exps = args['ref_exps']
+    ref_exps = [ref for ref in ref_exps.split(",")]
+    prompt_ending = args['prompt_ending']
+
+    run_experiment(datapath,prompt_ending,ref_exps,resultpath)
+
+    #datafile = "../stimuli/IC1.csv"
+    #prompt_ending = "."
+    #outfile = "../results/IC1_exp1A.csv"
+    #referents = ["He","She"]
+    
 
 if __name__ == "__main__":
     main()

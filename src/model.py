@@ -35,7 +35,7 @@ class RefExpPredictor(nn.Module):
         return encoded_input
 
 
-    def get_probability_scores(self,text_input,referents):
+    def get_probability_scores(self,text_input,ref_exps):
         """
         returns probability scores for referring expressions
         """
@@ -44,7 +44,9 @@ class RefExpPredictor(nn.Module):
         predict_after = len(encoded_input)-1
         # sanity check
         #print(self.tokenizer.decode(encoded_input[predict_after]))
-        encoded_referents = [self.tokenizer.encode(referent,add_space_before_punct_symbol=True) for referent in referents]
+        #print(encoded_input)
+        #print(self.tokenizer.decode(encoded_input))
+        encoded_ref_exps = [self.tokenizer.encode(exp,add_space_before_punct_symbol=True) for exp in ref_exps]
         encoded_input = torch.tensor(encoded_input).unsqueeze(0)
         # compute probabilities
         probs = []
@@ -53,7 +55,7 @@ class RefExpPredictor(nn.Module):
             output = self.model(encoded_input)
         logits = output[0]
         prediction_scores = self.softmax(logits[0,predict_after])
-        probs = [prediction_scores[ref_id[0]].item() for ref_id in encoded_referents]
+        probs = [prediction_scores[id[0]].item() for id in encoded_ref_exps]
         return probs
 
 
