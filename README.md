@@ -3,7 +3,7 @@
 ### Project
 src/
 - model.py
-- experiment.py
+- run_experiment.py
 
 stimuli/
 - IC1.csv 
@@ -26,5 +26,6 @@ stimuli with perfective transfer of possession verbs
 
 
 ### Usage
-python run_experiment.py --load_from [datafile] save_to [resultfile] ref_exps ["pron1",.,"name"] prompt_ending [period/connective]
+```python run_experiment.py --load_from=[path] --save_to=[path] --ref_exps=["<pron1>,..,<name1>,.."] --prompt_ending=["<punctuation>" or "<connective>"]```
+
 
