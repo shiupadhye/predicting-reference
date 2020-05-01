@@ -1,3 +1,4 @@
+import re
 import torch
 import numpy as np
 import torch.nn as nn
@@ -15,23 +16,42 @@ class RefExpPredictor(nn.Module):
         self.model = TransfoXLLMHeadModel.from_pretrained("transfo-xl-wt103")
         self.softmax = nn.Softmax(dim=0)
 
+    def preprocess(self,text):
+        preprocessed_tokens = []
+        for token in text.split():
+            split_tokens = re.findall(r"[\w]+|[.,!?;]",token)
+            if len(split_tokens) == 1:
+                preprocessed_tokens.append(split_tokens[0])
+            else:
+                for token in split_tokens:
+                    preprocessed_tokens.append(token)
+        return preprocessed_tokens
+
     def preprocess_and_tokenize(self,stimulus):
-        PADDING_TEXT = "In 1991, the remains of Russian Tsar Nicholas II and his family \
-        (except for Alexei and Maria) are discovered. \
-        The voice of Nicholas's young son, Tsarevich Alexei Nikolaevich, narrates the \
-        remainder of the story. 1883 Western Siberia,\
-        a young Grigori Rasputin is asked by his father and a group of men to perform magic. \
-        Rasputin has a vision and denounces one of the men as a horse thief. Although his \
-        father initially slaps him for making such an accusation, Rasputin watches as the \
-        man is chased outside and beaten. Twenty years later, Rasputin sees a vision of \
-        the Virgin Mary, prompting him to become a priest. Rasputin quickly becomes famous, \
-        with people, even a bishop, begging for his blessing."
-        encoded_prompt = self.tokenizer.encode(PADDING_TEXT,add_space_before_punct_symbol=True) + [self.tokenizer.eos_token_id]
-        if stimulus.endswith("."):
-            encoded_stimulus= self.tokenizer.encode(stimulus,add_space_before_punct_symbol=True) + [self.tokenizer.eos_token_id]
+        PADDING_TEXT =  """In 1991, the remains of Russian Tsar Nicholas II and his family
+        (except for Alexei and Maria) are discovered. The voice of Nicholas's young son, 
+        Tsarevich Alexei Nikolaevich, narrates the remainder of the story. 1883 Western 
+        Siberia, a young Grigori Rasputin is asked by his father and a group of men to 
+        perform magic. Rasputin has a vision and denounces one of the men as a horse thief. 
+        Although his father initially slaps him for making such an accusation, Rasputin 
+        watches as the man is chased outside and beaten. Twenty years later, Rasputin 
+        sees a vision of the Virgin Mary, prompting him to become a priest. Rasputin 
+        quickly becomes famous, with people, even a bishop, begging for his blessing."""
+        preprocessed_padding_text = self.preprocess(PADDING_TEXT) + [self.tokenizer.eos_token]
+        #print(preprocessed_padding_text)
+        preprocessed_stimulus = self.preprocess(stimulus)
+        #print(preprocessed_stimulus)
+        # encode padding text
+        encoded_padding_text = self.tokenizer.convert_tokens_to_ids(preprocessed_padding_text)
+        #print(encoded_padding_text)
+        # check prompt ending
+        end_idx = len(preprocessed_stimulus)-1
+        if preprocessed_stimulus[end_idx] == ".":
+            encoded_stimulus = self.tokenizer.convert_tokens_to_ids(preprocessed_stimulus) + [self.tokenizer.eos_token_id]
         else:
-            encoded_stimulus= self.tokenizer.encode(stimulus,add_space_before_punct_symbol=True)
-        encoded_input = encoded_prompt + encoded_stimulus
+            encoded_stimulus = self.tokenizer.convert_tokens_to_ids(preprocessed_stimulus)
+        encoded_input = encoded_padding_text + encoded_stimulus
+        #print(encoded_input)
         return encoded_input
 
 
@@ -39,14 +59,13 @@ class RefExpPredictor(nn.Module):
         """
         returns probability scores for referring expressions
         """
-        # tokenizer
+        # tokenize
         encoded_input = self.preprocess_and_tokenize(text_input)
         predict_after = len(encoded_input)-1
         # sanity check
         #print(self.tokenizer.decode(encoded_input[predict_after]))
-        #print(encoded_input)
         #print(self.tokenizer.decode(encoded_input))
-        encoded_ref_exps = [self.tokenizer.encode(exp,add_space_before_punct_symbol=True) for exp in ref_exps]
+        encoded_ref_exps = [self.tokenizer.encode(exp) for exp in ref_exps]
         encoded_input = torch.tensor(encoded_input).unsqueeze(0)
         # compute probabilities
         probs = []
