@@ -1,0 +1,41 @@
+Stimuli,he,she
+"John assisted Mary and, as a result,",0.25709766149520874,0.7429023385047913
+"Mary assisted John and, as a result,",0.5654163956642151,0.4345836043357849
+"Mary blames John and, as a result,",0.7123934626579285,0.2876066267490387
+"John blames Mary and, as a result,",0.31181514263153076,0.6881848573684692
+"Mary comforted John and, as a result,",0.8298305869102478,0.17016944289207458
+"John comforted Mary and, as a result,",0.14976729452610016,0.8502326607704163
+"John congratulated Mary and, as a result,",0.14168615639209747,0.858313798904419
+"Mary congratulated John and, as a result,",0.9089760184288025,0.09102394431829453
+"John corrected Mary and, as a result,",0.34994959831237793,0.6500504016876221
+"Mary corrected John and, as a result,",0.5764837861061096,0.4235162138938904
+"Mary detests John and, as a result,",0.3697412312030792,0.6302587389945984
+"John detests Mary and, as a result,",0.7219894528388977,0.2780105173587799
+"John fears Mary and, as a result,",0.7708709836006165,0.22912900149822235
+"Mary fears John and, as a result,",0.3256220817565918,0.6743778586387634
+"Mary envies John and, as a result,",0.5515326857566833,0.44846731424331665
+"John envies Mary and, as a result,",0.5648608803749084,0.4351390600204468
+"John hates Mary and, as a result,",0.6292988061904907,0.3707011640071869
+"Mary hates John and, as a result,",0.4695870280265808,0.530413031578064
+"John helped Mary and, as a result,",0.22989128530025482,0.770108699798584
+"Mary helped John and, as a result,",0.7077736854553223,0.29222628474235535
+"John mocked Mary and, as a result,",0.34968477487564087,0.6503152847290039
+"Mary mocked John and, as a result,",0.7757728695869446,0.22422713041305542
+"Mary noticed John and, as a result,",0.42798611521720886,0.5720138549804688
+"John noticed Mary and, as a result,",0.6762840747833252,0.3237159252166748
+"Mary pacified John and, as a result,",0.856995701789856,0.14300432801246643
+"John pacified Mary and, as a result,",0.17569755017757416,0.8243024349212646
+"Mary praised John and, as a result,",0.9557539224624634,0.04424615576863289
+"John praised Mary and, as a result,",0.2949175238609314,0.7050824761390686
+"John reproached Mary and, as a result,",0.1389079988002777,0.8610919713973999
+"Mary reproached John and, as a result,",0.9446603059768677,0.05533965677022934
+"Mary scolded John and, as a result,",0.8981066346168518,0.1018933579325676
+"John scolded Mary and, as a result,",0.20362414419651031,0.7963758111000061
+"John stared at Mary and, as a result,",0.3244270384311676,0.67557293176651
+"Mary stared at John and, as a result,",0.8179212808609009,0.18207870423793793
+"John thanked Mary and, as a result,",0.2062714844942093,0.7937285304069519
+"Mary thanked John and, as a result,",0.9413628578186035,0.058637164533138275
+"Mary trusts John and, as a result,",0.810010552406311,0.18998940289020538
+"John trusts Mary and, as a result,",0.27341461181640625,0.726585328578949
+"Mary values John and, as a result,",0.4910769462585449,0.5089230537414551
+"John values Mary and, as a result,",0.6781348586082458,0.32186514139175415

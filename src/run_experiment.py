@@ -34,41 +34,25 @@ def preprocess_stimuli(stimulus,prompt_ending):
         stimulus = stimulus + " " + prompt_ending
     return stimulus
 
-# -------------------- Postprocessing ------------------------
-def normalize(probability_scores):
-    denom = np.sum(np.array(list(probability_scores.values())))
-    for ref, score in probability_scores.items():
-        probability_scores[ref] = score/denom
-    return probability_scores
-
-def normalize_results(results):
-    normalized_results = {}
-    for prompt, probability_scores in results.items():
-        normalized_probability_scores = normalize(probability_scores)
-        normalized_results[prompt] = normalized_probability_scores
-    return normalized_results
-
-
 #------------------------ Experiment -------------------------
 
-def run_next_word_prediction(model,stimuli,referents):
+def run_next_word_prediction(model,stimuli,ref_exps):
     results = {}
     for stimulus in stimuli:
-        referent_probabilities = model.get_probability_scores(stimulus,referents)
+        ref_exp_probabilities = model.get_probability_scores(stimulus,ref_exps)
         probability_scores = {}
-        for i,referent in enumerate(referents):
-            probability_scores[referent] = referent_probabilities[i]
+        for i,ref_exp in enumerate(ref_exps):
+            probability_scores[ref_exp] = ref_exp_probabilities[i]
         results[stimulus] = probability_scores
-        normalized_results = normalize_results(results)
     return results  
 
-def run_experiment(datafile,prompt_ending,referents,outfile):
+def run_experiment(datafile,prompt_ending,ref_exps,outfile):
     # load stimuli
     stimuli = load_stimuli(datafile,prompt_ending)
     # init model
     model = refexpmodel.RefExpPredictor()
-    results = run_next_word_prediction(model,stimuli,referents)
-    save_results(outfile,results,referents)
+    results = run_next_word_prediction(model,stimuli,ref_exps)
+    save_results(outfile,results,ref_exps)
 
 
 def main():

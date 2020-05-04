@@ -1,0 +1,25 @@
+Stimuli,he,she
+"John surprised Mary and, as a result,",0.1284457892179489,0.8715541958808899
+"Mary surprised John and, as a result,",0.23130853474140167,0.7686914801597595
+"John surprised Alice and, as a result,",0.24915701150894165,0.7508429288864136
+"Alice surprised John and, as a result,",0.2699209451675415,0.7300790548324585
+"John blames Mary and, as a result,",0.3800755739212036,0.6199243664741516
+"Mary blames John and, as a result,",0.1814717799425125,0.8185282349586487
+"John blames Alice and, as a result,",0.46302881836891174,0.5369712114334106
+"Alice blames John and, as a result,",0.18026645481586456,0.8197335600852966
+"John drove to Mary and, as a result,",0.3236134350299835,0.6763865351676941
+"Mary drove to John and, as a result,",0.265738844871521,0.734261155128479
+"John drove to Alice and, as a result,",0.8494389653205872,0.15056107938289642
+"Alice drove to John and, as a result,",0.3155021667480469,0.6844978332519531
+"John mailed a letter to Mary and, as a result,",0.17496712505817413,0.8250328898429871
+"Mary mailed a letter to John and, as a result,",0.28406059741973877,0.715939462184906
+"John mailed a letter to Alice and, as a result,",0.40245360136032104,0.5975464582443237
+"Alice mailed a letter to John and, as a result,",0.26497882604599,0.7350211143493652
+"John sent a fruitcake to Mary and, as a result,",0.0780905932188034,0.9219094514846802
+"Mary sent a fruitcake to John and, as a result,",0.31537264585494995,0.6846274137496948
+"John sent a fruitcake to Alice and, as a result,",0.39012837409973145,0.6098715662956238
+"Alice sent a fruitcake to John and, as a result,",0.34133201837539673,0.6586679816246033
+"John was sending a fruitcake to Mary and, as a result,",0.2586928904056549,0.7413071393966675
+"Mary was sending a fruitcake to John and, as a result,",0.19793030619621277,0.8020697236061096
+"John was sending a fruitcake to Alice and, as a result,",0.742555558681488,0.25744444131851196
+"Alice was sending a fruitcake to John and, as a result,",0.1663689911365509,0.8336310386657715

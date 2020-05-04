@@ -18,8 +18,14 @@ class RefExpPredictor(nn.Module):
 
     def preprocess(self,text):
         preprocessed_tokens = []
+        # specific words to exclude from preprocessing
+        exceptions = ["Mr."]
         for token in text.split():
-            split_tokens = re.findall(r"[\w]+|[.,!?;]",token)
+            # check for exceptions
+            if token in exceptions:
+                split_tokens = [token]
+            else:
+                split_tokens = re.findall(r"[\w]+|[.,!?;]",token)
             if len(split_tokens) == 1:
                 preprocessed_tokens.append(split_tokens[0])
             else:
@@ -37,19 +43,17 @@ class RefExpPredictor(nn.Module):
         watches as the man is chased outside and beaten. Twenty years later, Rasputin 
         sees a vision of the Virgin Mary, prompting him to become a priest. Rasputin 
         quickly becomes famous, with people, even a bishop, begging for his blessing."""
+        starter_prompt = """John is a speech pathologist, and he lives in San Francisco with his
+        family. Mary is a software engineer, and she also lives in San Francisco with 
+        her one year old Golden Retriever."""
         preprocessed_padding_text = self.preprocess(PADDING_TEXT) + [self.tokenizer.eos_token]
-        #print(preprocessed_padding_text)
+        #modified_stimulus = starter_prompt + stimulus
+        #preprocessed_stimulus = self.preprocess(modified_stimulus)
         preprocessed_stimulus = self.preprocess(stimulus)
-        #print(preprocessed_stimulus)
         # encode padding text
         encoded_padding_text = self.tokenizer.convert_tokens_to_ids(preprocessed_padding_text)
-        #print(encoded_padding_text)
         # check prompt ending
-        end_idx = len(preprocessed_stimulus)-1
-        if preprocessed_stimulus[end_idx] == ".":
-            encoded_stimulus = self.tokenizer.convert_tokens_to_ids(preprocessed_stimulus) + [self.tokenizer.eos_token_id]
-        else:
-            encoded_stimulus = self.tokenizer.convert_tokens_to_ids(preprocessed_stimulus)
+        encoded_stimulus = self.tokenizer.convert_tokens_to_ids(preprocessed_stimulus)
         encoded_input = encoded_padding_text + encoded_stimulus
         #print(encoded_input)
         return encoded_input
@@ -63,9 +67,10 @@ class RefExpPredictor(nn.Module):
         encoded_input = self.preprocess_and_tokenize(text_input)
         predict_after = len(encoded_input)-1
         # sanity check
-        #print(self.tokenizer.decode(encoded_input[predict_after]))
-        #print(self.tokenizer.decode(encoded_input))
+        print(self.tokenizer.decode(encoded_input[predict_after]))
+        print(self.tokenizer.decode(encoded_input))
         encoded_ref_exps = [self.tokenizer.encode(exp) for exp in ref_exps]
+        print(encoded_ref_exps)
         encoded_input = torch.tensor(encoded_input).unsqueeze(0)
         # compute probabilities
         probs = []
@@ -73,8 +78,8 @@ class RefExpPredictor(nn.Module):
         with torch.no_grad():
             output = self.model(encoded_input)
         logits = output[0]
-        prediction_scores = self.softmax(logits[0,predict_after])
-        probs = [prediction_scores[id[0]].item() for id in encoded_ref_exps]
+        prediction_scores = torch.tensor([logits[0,predict_after][id].item() for id in encoded_ref_exps])
+        probs = self.softmax(prediction_scores).tolist()
         return probs
 
 
