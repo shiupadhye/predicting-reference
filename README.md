@@ -1,11 +1,12 @@
 # pronoun-project
 
-### Project
-src/
+## Project
+### src/
 - model.py
 - run_experiment.py
 
-stimuli/v1/
+### stimuli/v1/
+
 Contains stimuli with "John" and "Mary" as the subject/object pairs
 
 - IC1.csv 
@@ -26,7 +27,8 @@ stimuli with imperfective transfer of possession verbs
 - aspect_perfective.csv
 stimuli with perfective transfer of possession verbs
 
-stimuli/v2/
+### stimuli/v2/
+
 Contains stimuli with "Man" and "Woman" as the subject/object pairs
 
 - IC1.csv 
@@ -48,11 +50,13 @@ stimuli with imperfective transfer of possession verbs
 stimuli with perfective transfer of possession verbs
 
 
-results/
+### results/
+
 Results of the experiments in .csv format
 
-notebooks/
-Visualization / analysis of results 
+### notebooks/
+
+Analysis of results 
 
 
 ### Usage
