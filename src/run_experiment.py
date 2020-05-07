@@ -1,6 +1,7 @@
 """
 usage: python model.py --load_from [datafile] save_to [resultfile] ref_exps ["pron1",.,"name"] prompt_ending [period/connective]
 """
+import os
 import csv
 import argparse
 import numpy as np
@@ -16,7 +17,7 @@ def load_stimuli(filename,prompt_ending):
 
 
 def save_results(outfile,results,referents):
-    headers = ['Stimuli'] + [ref for ref in referents]
+    headers = ['stimulus'] + [ref for ref in referents]
     with open(outfile,'w') as csvfile:
         writer = csv.writer(csvfile,delimiter=",")
         writer.writerow(headers)
@@ -57,24 +58,24 @@ def run_experiment(datafile,prompt_ending,ref_exps,outfile):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--load_from",type=str,help="path of file containing stimuli",required=True)
-    parser.add_argument("--save_to",type=str,help="path of file for storing results",required=True)
+    parser.add_argument("--load_from",type=str,help="path of dir that contains stimuli",required=True)
+    parser.add_argument("--save_to",type=str,help="path of dir for storing results",required=True)
     parser.add_argument('--ref_exps',type=str,required=True)
     parser.add_argument('--prompt_ending',type=str,required=True)
     args = vars(parser.parse_args())
 
-    datapath = args['load_from']
-    resultpath = args['save_to']
+    input_dir = args['load_from']
+    output_dir = args['save_to']
     ref_exps = args['ref_exps']
     ref_exps = [ref for ref in ref_exps.split(",")]
     prompt_ending = args['prompt_ending']
 
-    run_experiment(datapath,prompt_ending,ref_exps,resultpath)
 
-    #datafile = "../stimuli/IC1.csv"
-    #prompt_ending = "."
-    #outfile = "../results/IC1_exp1A.csv"
-    #referents = ["He","She"]
+    for file in os.listdir(input_dir):
+        if file.endswith(".csv"):
+            input_file = os.path.join(input_dir,file)
+            output_file = os.path.join(output_dir,file)
+            run_experiment(input_file,prompt_ending,ref_exps,output_file)
     
 
 if __name__ == "__main__":
