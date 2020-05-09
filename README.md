@@ -58,8 +58,7 @@ Results of the experiments in .csv format
 
 Analysis of results 
 
-
 ### Usage
-```python run_experiment.py --load_from=[path] --save_to=[path] --ref_exps=["<pron1>,..,<name1>,.."] --prompt_ending=["<punctuation>" or "<connective>"]```
+```python run_experiment.py --load_from=[input_dir] --save_to=[output_dir] --ref_exps=["<pron1>,..,<name1>,.."] --prompt_ending=["<punctuation>" or "<connective>"]```
 
 
