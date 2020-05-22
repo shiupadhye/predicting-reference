@@ -5,7 +5,10 @@ import os
 import csv
 import argparse
 import numpy as np
-import model as refexpmodel
+import model_transfoxl as refexpmodel_transfoxl
+import model_gpt2 as refexpmodel_gpt2
+
+refexpmodels = {'transfoxl':refexpmodel_transfoxl,'gpt2':refexpmodel_gpt2}
 
 #------------------------ Data I/O -------------------------
 
@@ -40,42 +43,50 @@ def preprocess_stimuli(stimulus,prompt_ending):
 def run_next_word_prediction(model,stimuli,ref_exps):
     results = {}
     for stimulus in stimuli:
-        ref_exp_probabilities = model.get_probability_scores(stimulus,ref_exps)
+        ref_exp_probabilities = model.compute_probability_scores(stimulus,ref_exps)
         probability_scores = {}
         for i,ref_exp in enumerate(ref_exps):
             probability_scores[ref_exp] = ref_exp_probabilities[i]
         results[stimulus] = probability_scores
     return results  
 
-def run_experiment(datafile,prompt_ending,ref_exps,outfile):
+def run_experiment(model_type,datafile,outfile,ref_exps,prompt_ending):
+    # determine model
+    m = refexpmodels[model_type]
+    print("running experiments using model: %s" % model_type)
     # load stimuli
     stimuli = load_stimuli(datafile,prompt_ending)
     # init model
-    model = refexpmodel.RefExpPredictor()
+    model = m.RefExpPredictor()
     results = run_next_word_prediction(model,stimuli,ref_exps)
     save_results(outfile,results,ref_exps)
 
 
 def main():
     parser = argparse.ArgumentParser()
+    parser.add_argument("--model",type=str,help="model",required=True)
     parser.add_argument("--load_from",type=str,help="path of dir that contains stimuli",required=True)
     parser.add_argument("--save_to",type=str,help="path of dir for storing results",required=True)
     parser.add_argument('--ref_exps',type=str,required=True)
     parser.add_argument('--prompt_ending',type=str,required=True)
     args = vars(parser.parse_args())
 
+
+    model_type = args['model']
     input_dir = args['load_from']
     output_dir = args['save_to']
     ref_exps = args['ref_exps']
     ref_exps = [ref for ref in ref_exps.split(",")]
     prompt_ending = args['prompt_ending']
 
+    #run_experiment(model_type,input_dir,output_dir,ref_exps,prompt_ending)
+
 
     for file in os.listdir(input_dir):
         if file.endswith(".csv"):
             input_file = os.path.join(input_dir,file)
             output_file = os.path.join(output_dir,file)
-            run_experiment(input_file,prompt_ending,ref_exps,output_file)
+            run_experiment(model_type,input_file,output_file,ref_exps,prompt_ending)
     
 
 if __name__ == "__main__":
