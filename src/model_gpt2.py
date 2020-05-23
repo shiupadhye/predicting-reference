@@ -8,12 +8,12 @@ class RefExpPredictor(nn.Module):
     """
     Given a stimulus and list of potential referring expressions, computes 
     probability scores for each of the referring expressions. 
-    Uses Transformer-XL as base model.
+    Uses GPT2-XL as base model.
     """
     def __init__(self):
         super().__init__()
-        self.tokenizer =GPT2Tokenizer.from_pretrained("gpt2")
-        self.model = GPT2LMHeadModel.from_pretrained("gpt2")
+        self.tokenizer =GPT2Tokenizer.from_pretrained("gpt2-xl")
+        self.model = GPT2LMHeadModel.from_pretrained("gpt2-xl")
         self.softmax = nn.Softmax(dim=0)
 
     def preprocess(self,text_input):
@@ -28,6 +28,7 @@ class RefExpPredictor(nn.Module):
         """
         # tokenize
         encoded_input = self.preprocess(text_input)
+        print("encoded_input",encoded_input)
         # sanity check
         print("decoded input: ", self.tokenizer.decode(encoded_input))
         predict_after_idx = len(encoded_input)-1
@@ -49,7 +50,6 @@ class RefExpPredictor(nn.Module):
         argmax = torch.argmax(logits[0,predict_after_idx]).item()
         print("argmax: ", argmax, "token: ", self.tokenizer.decode(argmax))
         return probs
-
 
 """
 def main():
