@@ -4,6 +4,7 @@ usage: python model.py --load_from [datafile] save_to [resultfile] ref_exps ["pr
 import os
 import csv
 import argparse
+import torch
 import numpy as np
 import model_transfoxl as refexpmodel_transfoxl
 import model_gpt2 as refexpmodel_gpt2
@@ -50,7 +51,7 @@ def run_next_word_prediction(model,stimuli,ref_exps):
         results[stimulus] = probability_scores
     return results  
 
-def run_experiment(model_type,datafile,outfile,ref_exps,prompt_ending):
+def run_experiment(model_type,device,datafile,outfile,ref_exps,prompt_ending):
     # determine model
     m = refexpmodels[model_type]
     print("running experiments using model: %s" % model_type)
@@ -58,11 +59,15 @@ def run_experiment(model_type,datafile,outfile,ref_exps,prompt_ending):
     stimuli = load_stimuli(datafile,prompt_ending)
     # init model
     model = m.RefExpPredictor()
+    model.to(device)
     results = run_next_word_prediction(model,stimuli,ref_exps)
     save_results(outfile,results,ref_exps)
 
 
 def main():
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    print(device)
+
     parser = argparse.ArgumentParser()
     parser.add_argument("--model",type=str,help="model",required=True)
     parser.add_argument("--load_from",type=str,help="path of dir that contains stimuli",required=True)
@@ -79,16 +84,12 @@ def main():
     ref_exps = [ref for ref in ref_exps.split(",")]
     prompt_ending = args['prompt_ending']
 
-    run_experiment(model_type,input_dir,output_dir,ref_exps,prompt_ending)
-
   
-    """
     for file in os.listdir(input_dir):
         if file.endswith(".csv"):
             input_file = os.path.join(input_dir,file)
             output_file = os.path.join(output_dir,file)
-            run_experiment(model_type,input_file,output_file,ref_exps,prompt_ending)
-    """
+            run_experiment(model_type,device,input_file,output_file,ref_exps,prompt_ending)
 
     
 
