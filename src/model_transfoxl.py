@@ -14,6 +14,7 @@ class RefExpPredictor(nn.Module):
         super().__init__()
         self.tokenizer = TransfoXLTokenizer.from_pretrained("transfo-xl-wt103",eos_token='<eos>')
         self.tokenizer.add_special_tokens({'bos_token':'<sos>'})
+        
         self.model = TransfoXLLMHeadModel.from_pretrained("transfo-xl-wt103")
         self.softmax = nn.Softmax(dim=0)
 

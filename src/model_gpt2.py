@@ -12,12 +12,14 @@ class RefExpPredictor(nn.Module):
     """
     def __init__(self):
         super().__init__()
-        self.tokenizer =GPT2Tokenizer.from_pretrained("gpt2-xl")
-        self.model = GPT2LMHeadModel.from_pretrained("gpt2-xl")
+        self.tokenizer =GPT2Tokenizer.from_pretrained("gpt2-large")
+        self.tokenizer.add_special_tokens({'bos_token':'<|startoftext|>'})
+        self.model = GPT2LMHeadModel.from_pretrained("gpt2-large")
+        self.model.resize_token_embeddings(len(self.tokenizer))
         self.softmax = nn.Softmax(dim=0)
 
     def preprocess(self,text_input):
-        print(self.tokenizer.bos_token)
+        bos_token = '<|startoftext|>'
         preprocessed_input = self.tokenizer.bos_token + " " + text_input 
         encoded_input = self.tokenizer.encode(preprocessed_input,add_special_tokens=True)
         return encoded_input
@@ -51,15 +53,15 @@ class RefExpPredictor(nn.Module):
         print("argmax: ", argmax, "token: ", self.tokenizer.decode(argmax))
         return probs
 
-"""
+
 def main():
     model = RefExpPredictor()
-    sent = "John values Mary because"
-    ref_exps = ["he","she"]
+    sent = "Mary aggravated John."
+    ref_exps = ["He","She"]
     scores = model.compute_probability_scores(sent,ref_exps)
     print(ref_exps,scores)
 
 
 if __name__ == "__main__":
     main()
-"""
+

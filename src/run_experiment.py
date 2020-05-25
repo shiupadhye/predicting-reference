@@ -84,12 +84,15 @@ def main():
     ref_exps = [ref for ref in ref_exps.split(",")]
     prompt_ending = args['prompt_ending']
 
-  
+    """
     for file in os.listdir(input_dir):
         if file.endswith(".csv"):
             input_file = os.path.join(input_dir,file)
             output_file = os.path.join(output_dir,file)
             run_experiment(model_type,device,input_file,output_file,ref_exps,prompt_ending)
+    """
+
+    run_experiment(model_type,device,input_dir,output_dir,ref_exps,prompt_ending)
 
     
 
