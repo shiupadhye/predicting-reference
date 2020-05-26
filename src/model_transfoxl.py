@@ -62,10 +62,10 @@ class RefExpPredictor(nn.Module):
         print("decoded input: ", self.tokenizer.decode(encoded_input))
         predict_after_idx = len(encoded_input)-1
         # sanity check
-        print("predict_after: ", self.tokenizer.decode(encoded_input[predict_after_idx]))
+        #print("predict_after: ", self.tokenizer.decode(encoded_input[predict_after_idx]))
         encoded_ref_exps = [self.tokenizer.encode(exp) for exp in ref_exps]
         # sanity check
-        print(ref_exps, encoded_ref_exps)
+        #print(ref_exps, encoded_ref_exps)
         encoded_input = torch.tensor(encoded_input).unsqueeze(0)
         # compute probabilities
         probs = []
@@ -76,8 +76,8 @@ class RefExpPredictor(nn.Module):
         prediction_scores = torch.tensor([logits[0,predict_after_idx][ref_id].item() for ref_id in encoded_ref_exps])
         probs = self.softmax(prediction_scores).tolist()
         # sanity check
-        argmax = torch.argmax(logits[0,predict_after_idx]).item()
-        print("argmax: ", argmax, "token: ", self.tokenizer.decode(argmax))
+        #argmax = torch.argmax(logits[0,predict_after_idx]).item()
+        #print("argmax: ", argmax, "token: ", self.tokenizer.decode(argmax))
         return probs
 
 
