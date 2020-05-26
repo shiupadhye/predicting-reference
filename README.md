@@ -2,63 +2,62 @@
 
 ## Project
 ### src/
-- model.py
+- model_transfoxl.py
+- model_gpt2.py
 - run_experiment.py
 
-### stimuli/v1/
+### stimuli
 
-Contains stimuli with "John" and "Mary" as the subject/object pairs
 
-- IC1.csv 
-stimuli with subject-biased Implicit Causality verbs
+- IC1
+stimuli with subject-biased Implicit Causality verbs (20 files)
 
-- IC2.csv 
-stimuli with object-biased Implicit Causality verbs
+- IC2
+stimuli with object-biased Implicit Causality verbs (20 files)
 
-- motion.csv 
-stimuli with motion verbs
+- motion
+stimuli with motion verbs (17 files)
 
-- transofposs.csv
-stimuli with transfer of possession verbs 
+- transofposs_aspect_imperfective
+stimuli with imperfective transfer of possession verbs (18 files)
 
-- aspect_imperfective.csv
-stimuli with imperfective transfer of possession verbs
+- transofposs_aspect_perfective
+stimuli with perfective transfer of possession verbs (18 files)
 
-- aspect_perfective.csv
-stimuli with perfective transfer of possession verbs
-
-### stimuli/v2/
-
-Contains stimuli with "Man" and "Woman" as the subject/object pairs
-
-- IC1.csv 
-stimuli with subject-biased Implicit Causality verbs
-
-- IC2.csv 
-stimuli with object-biased Implicit Causality verbs
-
-- motion.csv 
-stimuli with motion verbs
-
-- transofposs.csv
-stimuli with transfer of possession verbs 
-
-- aspect_imperfective.csv
-stimuli with imperfective transfer of possession verbs
-
-- aspect_perfective.csv
-stimuli with perfective transfer of possession verbs
 
 
 ### results/
 
 Results of the experiments in .csv format
 
+- transfoxl
+	- IC1
+		- 20 files
+	- IC2
+		- 20 files
+	- motion
+		- 17 files
+	- transofposs_aspect_imperfective
+		- 18 files
+	- transofposs_aspect_perfective
+		- 18 files
+
+
 ### notebooks/
 
-Analysis of results 
+- Transfoxl-Subject-biased-IC
+- Transfoxl-Object-biased-IC
+- Transfoxl-Motion
+- Transfoxl-transofposs_perfective
+- Transfoxl-transofposs_imperfective
+- GPT2-Subject-biased-IC
+- GPT2-Object-biased-IC
+- GPT2-Motion
+- GPT2-transofposs_perfective
+- GPT2-transofposs_imperfective
+- Results
 
 ### Usage
-```python run_experiment.py --load_from=[input_dir] --save_to=[output_dir] --ref_exps=["<pron1>,..,<name1>,.."] --prompt_ending=["<punctuation>" or "<connective>"]```
+```python run_experiment.py --model=[model_type] --load_from=[input_dir] --save_to=[output_dir] --ref_exps=["<pron1>,..,<name1>,.."] --prompt_ending=["<punctuation>" or "<connective>"]```
 
 
