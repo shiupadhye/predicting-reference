@@ -44,7 +44,7 @@ Results of the experiments in .csv format
 		- 18 files
 
 
-### notebooks/
+### reports/
 Analysis and Visualization of Results
 - Transfoxl-Subject-biased-IC
 - Transfoxl-Object-biased-IC
