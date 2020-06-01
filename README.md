@@ -1,12 +1,13 @@
 # predicting reference
 
 ## Project
+
 ### src/
 - model_transfoxl.py
 - model_gpt2.py
 - run_experiment.py
 
-### stimuli
+### stimuli/
 
 
 - IC1
@@ -56,6 +57,9 @@ Analysis and Visualization of Results
 - GPT2-transofposs_perfective
 - GPT2-transofposs_imperfective
 - Results
+
+#### environment.yml
+- list of dependencies and frameworks 
 
 ### Usage
 
