@@ -11,8 +11,6 @@ class RefExpPredictor(nn.Module):
     Given a stimulus and list of potential referring expressions, computes 
     probability scores for each of the referring expressions. 
     Uses Hugginface's GPT2-large implementation as base model 
-    https://huggingface.co/transformers/model_doc/gpt2.html
-
     """
     def __init__(self):
         super().__init__()
