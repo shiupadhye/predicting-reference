@@ -41,6 +41,8 @@ Results of the experiments in .csv format
 		- 18 files
 	- transofposs_aspect_perfective
 		- 18 files
+	- summary
+		- 15 files
 
 - gpt2
 	- IC1
@@ -53,6 +55,8 @@ Results of the experiments in .csv format
 		- 18 files
 	- transofposs_aspect_perfective
 		- 18 files
+	- summary
+		- 15 files
 
 ### reports/
 Analysis and Visualization of Results
