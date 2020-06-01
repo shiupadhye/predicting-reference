@@ -4,17 +4,20 @@ import numpy as np
 import torch.nn as nn
 from transformers import TransfoXLTokenizer,TransfoXLLMHeadModel
 
+device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+
 class RefExpPredictor(nn.Module):
     """
     Given a stimulus and list of potential referring expressions, computes 
     probability scores for each of the referring expressions. 
-    Uses Transformer-XL as base model.
+    Uses Hugginface's Transformer-XL implementation as base model 
+    https://huggingface.co/transformers/model_doc/gpt2.html
+
     """
     def __init__(self):
         super().__init__()
         self.tokenizer = TransfoXLTokenizer.from_pretrained("transfo-xl-wt103",eos_token='<eos>')
         self.tokenizer.add_special_tokens({'bos_token':'<sos>'})
-        
         self.model = TransfoXLLMHeadModel.from_pretrained("transfo-xl-wt103")
         self.softmax = nn.Softmax(dim=0)
 
@@ -58,15 +61,11 @@ class RefExpPredictor(nn.Module):
         """
         # tokenize
         encoded_input = self.preprocess_and_tokenize(text_input)
-        # sanity check
-        print("decoded input: ", self.tokenizer.decode(encoded_input))
         predict_after_idx = len(encoded_input)-1
         # sanity check
-        #print("predict_after: ", self.tokenizer.decode(encoded_input[predict_after_idx]))
         encoded_ref_exps = [self.tokenizer.encode(exp) for exp in ref_exps]
         # sanity check
-        #print(ref_exps, encoded_ref_exps)
-        encoded_input = torch.tensor(encoded_input).unsqueeze(0)
+        encoded_input = torch.tensor(encoded_input).unsqueeze(0).to(device)
         # compute probabilities
         probs = []
         self.model.eval()
@@ -75,22 +74,7 @@ class RefExpPredictor(nn.Module):
         logits = output[0]
         prediction_scores = torch.tensor([logits[0,predict_after_idx][ref_id].item() for ref_id in encoded_ref_exps])
         probs = self.softmax(prediction_scores).tolist()
-        # sanity check
-        #argmax = torch.argmax(logits[0,predict_after_idx]).item()
-        #print("argmax: ", argmax, "token: ", self.tokenizer.decode(argmax))
         return probs
 
 
-"""
-def main():
-    model = RefExpPredictor()
-    sent = "John values Mary because"
-    ref_exps = ["he","she"]
-    scores = model.compute_probability_scores(sent,ref_exps)
-    print(scores)
-
-
-if __name__ == "__main__":
-    main()
-"""
 

@@ -1,6 +1,3 @@
-"""
-usage: python model.py --load_from [datafile] save_to [resultfile] ref_exps ["pron1",.,"name"] prompt_ending [period/connective]
-"""
 import os
 import csv
 import argparse
@@ -9,6 +6,7 @@ import numpy as np
 import model_transfoxl as refexpmodel_transfoxl
 import model_gpt2 as refexpmodel_gpt2
 
+device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 refexpmodels = {'transfoxl':refexpmodel_transfoxl,'gpt2':refexpmodel_gpt2}
 
 #------------------------ Data I/O -------------------------
@@ -41,10 +39,10 @@ def preprocess_stimuli(stimulus,prompt_ending):
 
 #------------------------ Experiment -------------------------
 
-def run_next_word_prediction(model,stimuli,ref_exps):
+def run_next_word_prediction(net,stimuli,ref_exps):
     results = {}
     for stimulus in stimuli:
-        ref_exp_probabilities = model.compute_probability_scores(stimulus,ref_exps)
+        ref_exp_probabilities = net.compute_probability_scores(stimulus,ref_exps)
         probability_scores = {}
         for i,ref_exp in enumerate(ref_exps):
             probability_scores[ref_exp] = ref_exp_probabilities[i]
@@ -58,16 +56,13 @@ def run_experiment(model_type,device,datafile,outfile,ref_exps,prompt_ending):
     # load stimuli
     stimuli = load_stimuli(datafile,prompt_ending)
     # init model
-    model = m.RefExpPredictor()
-    model.to(device)
-    results = run_next_word_prediction(model,stimuli,ref_exps)
+    net = m.RefExpPredictor()
+    net.to(device)
+    results = run_next_word_prediction(net,stimuli,ref_exps)
     save_results(outfile,results,ref_exps)
 
 
 def main():
-    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-    print(device)
-
     parser = argparse.ArgumentParser()
     parser.add_argument("--model",type=str,help="model",required=True)
     parser.add_argument("--load_from",type=str,help="path of dir that contains stimuli",required=True)
@@ -84,17 +79,17 @@ def main():
     ref_exps = [ref for ref in ref_exps.split(",")]
     prompt_ending = args['prompt_ending']
 
-    
-    """
+
+    # evaluate models on all files in the directory
     for file in os.listdir(input_dir):
         if file.endswith(".csv"):
             input_file = os.path.join(input_dir,file)
             output_file = os.path.join(output_dir,file)
             run_experiment(model_type,device,input_file,output_file,ref_exps,prompt_ending)
-    """
+    
 
-
-    run_experiment(model_type,device,input_dir,output_dir,ref_exps,prompt_ending)
+    # single file
+    #run_experiment(model_type,device,input_dir,output_dir,ref_exps,prompt_ending)
 
     
 

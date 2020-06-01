@@ -1,4 +1,4 @@
-# pronoun-project
+# predicting reference
 
 ## Project
 ### src/
@@ -16,7 +16,7 @@ stimuli with subject-biased Implicit Causality verbs (20 files)
 stimuli with object-biased Implicit Causality verbs (20 files)
 
 - motion
-stimuli with motion verbs (17 files)
+stimuli with motion verbs (18 files)
 
 - transofposs_aspect_imperfective
 stimuli with imperfective transfer of possession verbs (18 files)
@@ -44,7 +44,7 @@ Results of the experiments in .csv format
 
 
 ### notebooks/
-
+Analysis and Visualization of Results
 - Transfoxl-Subject-biased-IC
 - Transfoxl-Object-biased-IC
 - Transfoxl-Motion
@@ -58,6 +58,12 @@ Results of the experiments in .csv format
 - Results
 
 ### Usage
-```python run_experiment.py --model=[model_type] --load_from=[input_dir] --save_to=[output_dir] --ref_exps=["<pron1>,..,<name1>,.."] --prompt_ending=["<punctuation>" or "<connective>"]```
+
+For evaluating the models on a single file (recommended for CPU):
+```python src/run_experiment.py --model=["transfoxl" or "gpt2"] --load_from=[path-to-input-file] --save_to=[path-to-output-file] --ref_exps=["<pron1>,..,<name1>,.."] --prompt_ending=["<punctuation>" or "<connective>"]```
+
+
+For evaluating the models on all the files in the directory:
+```python src/run_experiment.py --model=["transfoxl" or "gpt2"] --load_from=[path-to-input-directory] --save_to=[path-to-output-directory] --ref_exps=["<pron1>,..,<name1>,.."] --prompt_ending=["<punctuation>" or "<connective>"]```
 
 
