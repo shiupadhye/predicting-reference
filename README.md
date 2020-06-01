@@ -9,7 +9,6 @@
 
 ### stimuli/
 
-
 - IC1
 stimuli with subject-biased Implicit Causality verbs (20 files)
 
@@ -58,8 +57,6 @@ Analysis and Visualization of Results
 - GPT2-transofposs_imperfective
 - Results
 
-#### environment.yml
-- list of dependencies and frameworks 
 
 ### Usage
 
@@ -69,5 +66,9 @@ For evaluating the models on a single file (recommended for CPU):
 
 For evaluating the models on all the files in the directory:
 ```python src/run_experiment.py --model=["transfoxl" or "gpt2"] --load_from=[path-to-input-directory] --save_to=[path-to-output-directory] --ref_exps=["<pron1>,..,<name1>,.."] --prompt_ending=["<punctuation>" or "<connective>"]```
+
+### Dependencies
+- requirements.txt
+
 
 
