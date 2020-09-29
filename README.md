@@ -36,7 +36,7 @@ Results of the experiments in .csv format
 	- IC2
 		- 20 files
 	- motion
-		- 17 files
+		- 18 files
 	- transofposs_aspect_imperfective
 		- 18 files
 	- transofposs_aspect_perfective
