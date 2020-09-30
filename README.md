@@ -82,7 +82,8 @@ Analysis and Visualization of Results
 	- Report for results from gpt2/transofposs_imperfective
 - Results
 	- Final Report for results from transfoxl/summary and gpt2/summary
-
+- Analysis
+  - Report containing statistics for the experiments
 
 ### Usage
 
