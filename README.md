@@ -1,14 +1,16 @@
-# predicting reference
-
+# predicting-reference
 ## Project
+Data and code for the EMNLP 2020 Short Paper:\
+*Predicting Reference: What do language models learn about discourse models?*
 
 ### src/
+Scripts for running experiments
 - model_transfoxl.py
 - model_gpt2.py
 - run_experiment.py
 
 ### stimuli/
-
+Stimuli used for experiments
 - IC1 
 	- stimuli with subject-biased Implicit Causality verbs (20 files)
 
@@ -27,7 +29,6 @@
 
 
 ### results/
-
 Results of the experiments in .csv format
 
 - transfoxl
