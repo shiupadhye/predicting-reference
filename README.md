@@ -1,6 +1,6 @@
 # predicting-reference
 ## Project
-Data and code for the EMNLP 2020 Short Paper:\
+Data and code for the EMNLP 2020 paper:\
 *Predicting Reference: What do language models learn about discourse models?*
 
 ### src/
